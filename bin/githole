@@ -1,3 +1,21 @@
 #!/usr/bin/env ruby
 
-puts 'fudging fudger'
+require 'githole/git'
+
+cmd = ARGV[0]
+version = ARGV[1]
+
+if cmd.nil? || cmd == ''
+  puts "Please specify your command."
+  exit
+elsif version.nil? || version == ''
+  puts "Please specify the version you are working with."
+else
+  githole = Githole::Git.new(version)
+  if githole.respond_to?(cmd)
+    githole.send(cmd)
+  else
+    puts "Command not found: #{cmd}"
+    exit
+  end
+end

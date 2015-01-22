@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Githole::VERSION
   spec.authors       = ["Sean C Davis"]
   spec.email         = ["scdavis41@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{A simple git workflow to help develop for multiple releases.}
+  spec.description   = %q{A wrapper for collections of git commands that make 
+    it easy to develop for multiple releases concurrently. }
   spec.homepage      = ""
   spec.license       = "MIT"
 
