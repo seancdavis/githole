@@ -12,14 +12,14 @@ module Githole
     def add
       fetch
       create remote
-      if branches.include?("remotes/origin/#{remote}")
-        pull remote
-      end
-      push remote
+      pull remote if branch_exists?("remotes/origin/#{remote}")
+      git_push remote
       create local
     end
 
     def update
+      verify remote
+      verify local
       checkout master
       pull master
       checkout remote
@@ -33,7 +33,7 @@ module Githole
       update
       checkout remote
       merge local
-      push remote
+      git_push remote
       checkout local
     end
 
@@ -54,9 +54,10 @@ module Githole
       end
 
       def branches
-        # `git branch --list`.split("\n").collect { |b| b.split(' ').last }
-        branches = `git branch -a`.split("\n").collect { |b| b.split(' ').last }
-        branches = branches.collect { |b| b.split(' ').first }
+        `git branch -a`
+          .split("\n")
+          .collect { |b| b.split(' ').last }
+          .collect { |b| b.split(' ').first }
       end
 
       def checkout(branch, options = '')
@@ -64,18 +65,14 @@ module Githole
       end
 
       def create(branch)
-        if branches.include?(branch)
-          checkout branch
-        else
-          checkout branch, '-b'
-        end
+        branch_exists?(branch) ? checkout(branch) : checkout(branch, '-b')
       end
 
       def delete(branch)
         git "branch -D #{branch}"
       end
 
-      def push(branch)
+      def git_push(branch)
         git "push origin #{branch}"
       end
 
@@ -101,6 +98,22 @@ module Githole
 
       def local
         "local-v#{@version}"
+      end
+
+      def branch_exists?(branch)
+        branches.include?(branch)
+      end
+
+      def remote_exists?
+        branch_exists?(remote)
+      end
+
+      def local_exists?
+        branch_exists?(local)
+      end
+
+      def verify(branch)
+        create(branch) unless branch_exists?(branch)
       end
 
   end
