@@ -6,7 +6,7 @@ module Githole
     end
 
     def respond_to?(cmd)
-      ['add','update','push','remove'].include?(cmd)
+      ['add','update','push','remove', 'tag'].include?(cmd)
     end
 
     def add
@@ -41,6 +41,13 @@ module Githole
       checkout master
       delete remote
       delete local
+    end
+
+    def tag
+      checkout master
+      pull master
+      git "tag -a v#{@version} -m v#{@version}"
+      git_push "--tags"
     end
 
     private
