@@ -170,6 +170,27 @@ $ git branch -D v1.4.1
 $ git branch -D local-v1.4.1
 ```
 
+### Tag
+
+Tag will pull and tag the `master` branch of your current repo, then *push all
+tags* to origin.
+
+This is a separate action because it has to happen **after the merge/pull
+request is accepted.**
+
+```text
+$ githole tag 1.4.1
+```
+
+The tag action runs these commands:
+
+```text
+$ git checkout master
+$ git pull origin master
+$ git tag -a v1.4.1 -m "v1.4.1"
+$ git push origin --tags
+```
+
 Contributing
 ----------------
 
@@ -178,3 +199,8 @@ Contributing
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
+
+Changelog
+----------------
+
+* **v1.1.0**: Add a `tag` action that pulls and tags master, then pushes tag
