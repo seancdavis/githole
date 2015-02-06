@@ -10,6 +10,7 @@ module Githole
     end
 
     def add
+      checkout master
       fetch
       create remote
       pull remote if branch_exists?("remotes/origin/#{remote}")
