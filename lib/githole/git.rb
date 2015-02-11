@@ -21,11 +21,14 @@ module Githole
     def update
       verify remote
       verify local
+      # rebase master onto local
       checkout master
       pull master
+      checkout local
+      rebase master
+      # rebase remote onto local
       checkout remote
       pull remote
-      rebase master
       checkout local
       rebase remote
     end
