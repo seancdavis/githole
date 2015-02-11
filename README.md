@@ -1,8 +1,8 @@
 Githole
 ================
 
-Githole is a command line script that serves as a wrapper for several git
-commands, which serve my git workflow.
+Githole is a wrapper for a specific versioning workflow using [Git](http://git-
+scm.com/).
 
 The Workflow
 ----------------
@@ -72,7 +72,7 @@ want as your second argument.
 Here's an example:
 
 ```text
-$ githole add 1.4.1
+$ githole add v1.4.1
 ```
 
 ### Add
@@ -83,14 +83,15 @@ version branches and figure out if it needs to pull or not.
 Let's say you're going to work on v1.4.1. You would set it up by running:
 
 ```text
-$ githole add 1.4.1
+$ githole add v1.4.1
 ```
 
 This creates a *version branch* -- `v1.4.1` -- and a *local feature branch* --
 `local-v1.4.1`.
 
 > **This workflow is specifically designed so you do not work in feature
-> branches. You only merge into them.**
+> branches. You only merge into them after you have rebased them to your loacl
+> branch.**
 
 This command runs the following commands:
 
@@ -113,7 +114,7 @@ While you can run this command at any time, I recommend at least doing it when
 you begin a dev session.
 
 ```text
-$ githole update 1.4.1
+$ githole update v1.4.1
 ```
 
 This runs the following commands
@@ -121,9 +122,10 @@ This runs the following commands
 ```text
 $ git checkout master
 $ git pull origin master
+$ git checkout local-v1.4.1
+$ git rebase master
 $ git checkout v1.4.1
 $ git pull origin v1.4.1
-$ git rebase master
 $ git checkout local-v1.4.1
 $ git rebase v1.4.1
 ```
@@ -140,7 +142,7 @@ Push first runs the update action, then pushes up to origin. Therefore, *you
 don't have to run `update` before you run `push`.*
 
 ```text
-$ githole push 1.4.1
+$ githole push v1.4.1
 ```
 
 In addition to the update commands, we run:
@@ -159,7 +161,7 @@ delete remote branches through your app's UI, just so you can use it as another
 way to check yourself.
 
 ```text
-$ githole remove 1.4.1
+$ githole remove v1.4.1
 ```
 
 The remove action runs these commands:
@@ -179,7 +181,7 @@ This is a separate action because it has to happen **after the merge/pull
 request is accepted.**
 
 ```text
-$ githole tag 1.4.1
+$ githole tag v1.4.1
 ```
 
 The tag action runs these commands:
@@ -203,4 +205,8 @@ Contributing
 Changelog
 ----------------
 
+* **v1.2.0**: Remove the auto "v" prefix from the branch and tag names
+* **v1.1.2**: Never rebase onto a branch tracking a remote repository; always
+  rebase onto a local-only branch
+* **v1.1.1**: Switch to master before fetching
 * **v1.1.0**: Add a `tag` action that pulls and tags master, then pushes tag
