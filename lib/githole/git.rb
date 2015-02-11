@@ -50,7 +50,7 @@ module Githole
     def tag
       checkout master
       pull master
-      git "tag -a v#{@version} -m v#{@version}"
+      git "tag -a #{@version} -m #{@version}"
       git_push "--tags"
     end
 
@@ -104,11 +104,11 @@ module Githole
       end
 
       def remote
-        "v#{@version}"
+        "#{@version}"
       end
 
       def local
-        "local-v#{@version}"
+        "local-#{@version}"
       end
 
       def branch_exists?(branch)
