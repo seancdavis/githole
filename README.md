@@ -193,6 +193,30 @@ $ git tag -a v1.4.1 -m "v1.4.1"
 $ git push origin --tags
 ```
 
+### Release
+
+The `release` branch is used to maintain the latest stable (as `master` *could*
+be used for testing scenarios you can't test on the version branch).
+
+> `release` is to be used **in replacement to** `tag`, as it will also run
+> `tag`.
+
+The command is:
+
+```text
+$ githole release v1.4.1
+```
+
+In addition to the `tag` commands, this will run:
+
+```text
+$ git checkout [-b] release
+$ git pull origin release
+$ git merge master
+$ git push origin release
+$ git checkout master
+```
+
 Contributing
 ----------------
 
