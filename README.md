@@ -217,6 +217,15 @@ $ git push origin release
 $ git checkout master
 ```
 
+### Count
+
+This is the only action that doesn't require a version argument. It simply
+gives you the total number of commits in the current branch.
+
+```text
+$ githole count
+```
+
 Contributing
 ----------------
 
