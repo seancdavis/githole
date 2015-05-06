@@ -24,7 +24,7 @@ branches are rolled into one. In other words, every remote branch (other than
 master) reflects the bleeding edge relevant to the version after which that
 branch is named.
 
-### 2: No Merging to Master
+### 2: No Committing to Master
 
 There should be no commits to the master branch. Ever.
 
@@ -42,9 +42,10 @@ To bring a feature branch up to date (required before you merge into version
 branch), you need to bring in changes from master and the remote version branch
 that you might not have.
 
-Instead of *merging* these branches, I *rebase* them. This keeps your commit
-history nice and clean (it's not littered with all these *Merged branch ...*
-commits).
+To keep history clean, we *rebase* the version branch onto the feature branch.
+Unfortunately, to keep a consistent point in history, we need to *merge*
+updates from master onto the version branch (at least that's worked the best at
+the moment).
 
 Installation
 ----------------
@@ -93,12 +94,25 @@ This creates a *version branch* -- `v1.4.1` -- and a *local feature branch* --
 > branches. You only merge into them after you have rebased them to your loacl
 > branch.**
 
-This command runs the following commands:
+If the remote branch already exists, then we run the following commands:
 
 ```text
+$ git checkout master
+$ git fetch
+$ git checkout -b v1.4.1 origin/v1.4.1
+$ git pull origin v1.4.1
+$ git checkout -b local-v1.4.1
+```
+
+If the remote branch doesn't exist at the origin, we need to create it and push
+it.
+
+```text
+$ git checkout master
+$ git fetch
 $ git checkout -b v1.4.1
-$ git pull origin v1.4.1 # if remote branch already exists
 $ git push origin v1.4.1
+$ git branch -u origin/v1.4.1
 $ git checkout -b local-v1.4.1
 ```
 
@@ -117,15 +131,14 @@ you begin a dev session.
 $ githole update v1.4.1
 ```
 
-This runs the following commands
+This runs the following commands:
 
 ```text
 $ git checkout master
 $ git pull origin master
-$ git checkout local-v1.4.1
-$ git rebase master
 $ git checkout v1.4.1
 $ git pull origin v1.4.1
+$ git merge master
 $ git checkout local-v1.4.1
 $ git rebase v1.4.1
 ```
