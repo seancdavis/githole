@@ -6,7 +6,7 @@ module Githole
     end
 
     def respond_to?(cmd)
-      ['add','update','push','remove', 'tag','release'].include?(cmd)
+      ['add','update','push','remove','tag','release','count'].include?(cmd)
     end
 
     def add
@@ -61,6 +61,10 @@ module Githole
       merge master
       git_push "release"
       checkout master
+    end
+
+    def count
+      git "rev-list HEAD --count"
     end
 
     private

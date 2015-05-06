@@ -8,7 +8,7 @@ version = ARGV[1]
 if cmd.nil? || cmd == ''
   puts "Please specify your command."
   exit
-elsif version.nil? || version == ''
+elsif cmd != 'count' && (version.nil? || version == '')
   puts "Please specify the version you are working with."
 else
   githole = Githole::Git.new(version)
