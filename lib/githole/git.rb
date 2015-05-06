@@ -12,23 +12,29 @@ module Githole
     def add
       checkout master
       fetch
-      create remote
-      pull remote if branch_exists?("remotes/origin/#{remote}")
+      if branch_exists?("remotes/origin/#{remote}")
+        git "checkout -b #{remote} origin/#{remote}"
+        pull remote
+      else
+        create remote
+      end
       git_push remote
+      git "branch -u origin/#{remote}"
       create local
     end
 
     def update
       verify remote
       verify local
-      # rebase master onto local
+      # update master
       checkout master
       pull master
-      checkout local
-      rebase master
-      # rebase remote onto local
+      # update remote
       checkout remote
       pull remote
+      # merge master into remote
+      merge master
+      # rebase remote onto local
       checkout local
       rebase remote
     end
