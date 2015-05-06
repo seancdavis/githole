@@ -17,9 +17,9 @@ module Githole
         pull remote
       else
         create remote
+        git_push remote
+        git "branch -u origin/#{remote}"
       end
-      git_push remote
-      git "branch -u origin/#{remote}"
       create local
     end
 
